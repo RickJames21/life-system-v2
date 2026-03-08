@@ -20,7 +20,10 @@ Three phases build External Forces onto the existing app. Phase 1 extends the Zu
   1. After saving an external force and refreshing the app, the saved force is still present
   2. The store exposes `setExternalForce`, `updateExternalForceText`, and `clearExternalForce` actions
   3. `externalForces` field is included in the Zustand `partialize` output alongside `notes` and `moods`
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 01-01-PLAN.md — Add ExternalForce type, externalForces state, three actions, and partialize entry to Zustand store
 
 ### Phase 2: External Forces Experience
 **Goal**: Users can surface historical events for any logged week, cycle through them, save one as an annotation, and edit it afterward
@@ -51,6 +54,6 @@ Three phases build External Forces onto the existing app. Phase 1 extends the Zu
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Store Foundation | 0/TBD | Not started | - |
+| 1. Store Foundation | 0/1 | Not started | - |
 | 2. External Forces Experience | 0/TBD | Not started | - |
 | 3. Integration | 0/TBD | Not started | - |
