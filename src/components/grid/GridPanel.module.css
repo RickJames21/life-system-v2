@@ -1,0 +1,172 @@
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 13px;
+  margin-bottom: 14px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sectionLabel {
+  font-size: 9px;
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.legendToggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 8px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  padding: 0;
+}
+
+.gotoBtn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 11px;
+  padding: 4px 8px;
+  transition: all 0.15s;
+}
+
+.gotoBtnActive {
+  background: var(--amber-glow);
+  color: var(--amber);
+  border-color: var(--amber);
+}
+
+/* Legend */
+.legend {
+  margin-bottom: 10px;
+  padding: 10px;
+  background: var(--bg-inset);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.legendRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legendSwatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+
+.legendName {
+  font-size: 9px;
+  color: var(--text-secondary);
+  letter-spacing: 0.06em;
+  width: 52px;
+}
+
+.legendDot {
+  font-size: 9px;
+  color: var(--text-deep);
+}
+
+.legendDesc {
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+.legendDivider {
+  height: 1px;
+  background: var(--border);
+  margin: 2px 0;
+}
+
+/* Goto */
+.gotoRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.gotoInput {
+  flex: 1;
+  padding: 7px 10px;
+  font-size: 13px;
+  color: var(--text-primary);
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  outline: none;
+  color-scheme: dark;
+}
+
+.gotoGo {
+  padding: 7px 14px;
+  background: var(--amber);
+  color: var(--bg-deep);
+  border: none;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.hint {
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+}
+
+/* Tab bar */
+.tabBar {
+  display: flex;
+  gap: 3px;
+  background: var(--bg-inset);
+  padding: 4px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  margin-bottom: 12px;
+}
+
+.tabBtn {
+  flex: 1;
+  padding: 7px 4px;
+  font-size: 11px;
+  border-radius: 5px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-weight: 400;
+}
+
+.tabActive {
+  background: var(--bg-panel);
+  color: var(--amber);
+  font-weight: 500;
+}

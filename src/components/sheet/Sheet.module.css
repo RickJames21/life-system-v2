@@ -1,0 +1,240 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: var(--z-sheet);
+}
+
+.sheet {
+  background: var(--bg-panel);
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  width: 100%;
+  max-width: 540px;
+  border: 1px solid var(--border);
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.handle {
+  width: 32px;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 12px auto 12px;
+  flex-shrink: 0;
+}
+
+.header {
+  padding: 0 18px 12px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.headerNav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navBtn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  opacity: 0.6;
+}
+
+.navBtn:hover {
+  opacity: 1;
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--text-primary);
+}
+
+.subtitle {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 3px;
+}
+
+.closeBtn {
+  font-size: 22px;
+  color: var(--text-dim);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.body {
+  overflow-y: auto;
+  padding: 14px 18px 36px;
+  flex: 1;
+}
+
+.childrenBlock {
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Re-log */
+.relogBanner {
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  background: var(--bg-lift);
+  border: 1px solid #2a2e32;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.relogText {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.relogBtn {
+  padding: 6px 14px;
+  background: none;
+  border: 1px solid var(--amber);
+  border-radius: 5px;
+  color: var(--amber);
+  font-size: 11px;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+}
+
+/* Mood */
+.moodSection {
+  margin-bottom: 12px;
+}
+
+.fieldLabel {
+  font-size: 9px;
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.moodRow {
+  display: flex;
+  gap: 5px;
+}
+
+.moodBtn {
+  flex: 1;
+  padding: 5px 4px;
+  font-size: 9px;
+  border-radius: 4px;
+  border: 1px solid;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+/* Note editor */
+.textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  resize: none;
+  line-height: 1.6;
+  outline: none;
+  caret-color: var(--amber);
+  font-family: inherit;
+  display: block;
+}
+
+.textarea:focus {
+  border-color: var(--text-secondary);
+}
+
+.editorFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.charCount {
+  font-size: 10px;
+}
+
+.editorBtns {
+  display: flex;
+  gap: 8px;
+}
+
+.deleteBtn {
+  padding: 7px 12px;
+  background: none;
+  color: #e07070;
+  border: 1px solid rgba(224, 112, 112, 0.27);
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.cancelBtn {
+  padding: 7px 12px;
+  background: none;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.saveBtn {
+  padding: 7px 18px;
+  background: var(--amber);
+  color: var(--bg-deep);
+  border: none;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Future */
+.futureMsg {
+  padding: 12px;
+  background: var(--bg-inset);
+  border-radius: 6px;
+  text-align: center;
+}
+
+.futureMsgText {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.futureMsgSub {
+  font-size: 10px;
+  color: var(--text-deep);
+  margin-top: 4px;
+}

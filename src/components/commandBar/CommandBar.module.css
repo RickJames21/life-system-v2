@@ -1,0 +1,76 @@
+.bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-bar);
+  height: 52px;
+  background: #0d0f11;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  gap: 8px;
+  font-family: var(--font-ui);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+}
+
+.bar:hover {
+  background: #111417;
+}
+
+.prompt {
+  font-size: 12px;
+  color: var(--amber);
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}
+
+.text {
+  font-size: 12px;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.accent {
+  color: var(--amber);
+  font-style: normal;
+}
+
+.dim {
+  color: var(--text-dim);
+  font-style: normal;
+}
+
+.preview {
+  color: var(--text-dim);
+}
+
+.missionHint {
+  color: var(--text-deep);
+  font-size: 10px;
+}
+
+.cursor {
+  color: var(--amber);
+  font-family: var(--font-mono);
+  animation: blink 1.2s step-end infinite;
+  flex-shrink: 0;
+}
+
+@media (max-width: 400px) {
+  .bar {
+    padding: 0 10px;
+    gap: 6px;
+  }
+  .text {
+    font-size: 11px;
+  }
+}

@@ -1,0 +1,31 @@
+.container {
+  position: relative;
+  height: 130px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.clockDisplay {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.clockTime {
+  font-size: 30px;
+  font-weight: 200;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.clockLabel {
+  font-size: 9px;
+  color: var(--text-secondary);
+  letter-spacing: 0.10em;
+  margin-top: 3px;
+  text-transform: uppercase;
+}

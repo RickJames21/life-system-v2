@@ -1,0 +1,278 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: var(--z-sheet);
+}
+
+.sheet,
+.menuSheet {
+  background: var(--bg-panel);
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  width: 100%;
+  max-width: 540px;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+
+.menuSheet {
+  max-height: 50vh;
+}
+
+.handle {
+  width: 32px;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 12px auto;
+  flex-shrink: 0;
+}
+
+.header,
+.menuHeader {
+  padding: 0 18px 12px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.menuHeader {
+  flex-direction: column;
+  gap: 2px;
+  border-bottom: none;
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--text-primary);
+}
+
+.subtitle {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+.closeBtn {
+  font-size: 22px;
+  color: var(--text-dim);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.body,
+.menuBody {
+  padding: 20px 18px 36px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Step label */
+.stepLabel {
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.missionPreview {
+  font-size: 12px;
+  color: var(--amber);
+  font-style: italic;
+  margin-bottom: 16px;
+}
+
+/* Mini keypad */
+.keypad {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.keyRow {
+  display: flex;
+  gap: 8px;
+}
+
+.key {
+  flex: 1;
+  padding: 14px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-lift);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.key:hover {
+  border-color: var(--amber);
+  background: var(--amber-glow);
+}
+
+.keySelected {
+  border-color: var(--amber);
+  background: var(--amber-glow);
+}
+
+.keyChar {
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--amber);
+  font-family: var(--font-mono);
+  line-height: 1;
+}
+
+.keyLabel {
+  font-size: 10px;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+}
+
+/* Mission input */
+.missionInput {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 15px;
+  color: var(--text-primary);
+  background: var(--bg-lift);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  caret-color: var(--amber);
+  font-family: inherit;
+  letter-spacing: 0.02em;
+}
+
+.missionInput:focus {
+  border-color: var(--text-secondary);
+}
+
+.missionBtns {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.missionSet {
+  flex: 1;
+  padding: 12px;
+  background: var(--amber-glow);
+  border: 1px solid var(--amber);
+  border-radius: 8px;
+  color: var(--amber);
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.missionSkip {
+  padding: 12px 16px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-dim);
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Note step */
+.noteTextarea {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--bg-lift);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  resize: none;
+  line-height: 1.7;
+  outline: none;
+  caret-color: var(--amber);
+  font-family: inherit;
+  display: block;
+}
+
+.noteFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.charCount {
+  font-size: 10px;
+  color: var(--text-deep);
+}
+
+.noteBtns {
+  display: flex;
+  gap: 8px;
+}
+
+.cancelBtn {
+  padding: 10px 16px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  color: var(--text-dim);
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.saveBtn {
+  padding: 10px 22px;
+  background: var(--amber);
+  border: none;
+  border-radius: 7px;
+  color: var(--bg-deep);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Menu */
+.relogRow {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--bg-lift);
+  border: 1px solid #2a2e32;
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.relogRow:hover {
+  background: #151820;
+}
+
+.relogIcon {
+  color: var(--amber);
+  font-size: 12px;
+  font-family: var(--font-mono);
+}

@@ -1,0 +1,62 @@
+:root {
+  /* Backgrounds */
+  --bg-deep:   #1F2124;
+  --bg-panel:  #262A2D;
+  --bg-inset:  #1a1d1f;
+  --bg-lift:   #0d0f11;
+
+  /* Borders */
+  --border:    #2F3338;
+  --border-dim: #252a2f;
+
+  /* Text */
+  --text-primary:   #E6E8EA;
+  --text-secondary: #9AA1A8;
+  --text-dim:       #5a6068;
+  --text-deep:      #3d4348;
+
+  /* Accent */
+  --amber:      #F2C572;
+  --amber-dim:  #E0B46A;
+  --amber-glow: rgba(242, 197, 114, 0.12);
+
+  /* Status */
+  --critical:   #6A4A7A;
+  --degraded:   #8A6A4A;
+  --nominal:    #4A6A8A;
+  --optimal:    #4A8A6A;
+
+  /* Status colors (text) */
+  --status-critical: #c47a7a;
+  --status-degraded: #b8956a;
+  --status-nominal:  #8fa8b8;
+  --status-optimal:  #8FBF9A;
+
+  /* Season colors */
+  --season-winter: #7FA7C9;
+  --season-spring: #8FBF9A;
+  --season-summer: #E3B663;
+  --season-autumn: #C47A4A;
+
+  /* Typography */
+  --font-ui:   'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Spacing */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+
+  /* Radius */
+  --r-sm: 3px;
+  --r-md: 6px;
+  --r-lg: 10px;
+  --r-xl: 14px;
+
+  /* Z-index */
+  --z-bar:     200;
+  --z-sheet:   300;
+  --z-toast:   400;
+}
