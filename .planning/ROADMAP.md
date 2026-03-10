@@ -54,6 +54,6 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Store Foundation | 1/1 | Complete | 2026-03-10 |
+| 1. Store Foundation | 1/1 | Complete    | 2026-03-10 |
 | 2. External Forces Experience | 0/TBD | Not started | - |
 | 3. Integration | 0/TBD | Not started | - |
