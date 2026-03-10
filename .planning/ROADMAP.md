@@ -6,7 +6,7 @@ Three phases build External Forces onto the existing app. Phase 1 extends the Zu
 
 ## Phases
 
-- [ ] **Phase 1: Store Foundation** - Add `externalForces` state shape, actions, and persistence to Zustand
+- [x] **Phase 1: Store Foundation** - Add `externalForces` state shape, actions, and persistence to Zustand
 - [ ] **Phase 2: External Forces Experience** - On-demand API fetch, in-log panel with cycling/saving, mobile layout, and visual polish
 - [ ] **Phase 3: Integration** - Import/export includes external forces; grid search spans notes and external forces
 
@@ -23,7 +23,7 @@ Three phases build External Forces onto the existing app. Phase 1 extends the Zu
 **Plans**: 1 plan
 
 Plans:
-- [ ] 01-01-PLAN.md — Add ExternalForce type, externalForces state, three actions, and partialize entry to Zustand store
+- [x] 01-01-PLAN.md — Add ExternalForce type, externalForces state, three actions, and partialize entry to Zustand store
 
 ### Phase 2: External Forces Experience
 **Goal**: Users can surface historical events for any logged week, cycle through them, save one as an annotation, and edit it afterward
@@ -54,6 +54,6 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Store Foundation | 0/1 | Not started | - |
+| 1. Store Foundation | 1/1 | Complete | 2026-03-10 |
 | 2. External Forces Experience | 0/TBD | Not started | - |
 | 3. Integration | 0/TBD | Not started | - |

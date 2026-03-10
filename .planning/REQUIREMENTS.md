@@ -22,9 +22,9 @@
 
 ### Data Store
 
-- [ ] **STORE-01**: Zustand store gains an `externalForces: Record<string, ExternalForce>` field, persisted to `ls_v3`, keyed by `wk(i)` (one external force per week)
-- [ ] **STORE-02**: `ExternalForce` type holds: `year`, `summary` (original Wikipedia text), `userText` (user's editable version), and optionally `url`
-- [ ] **STORE-03**: Store actions: `setExternalForce(weekKey, force)`, `updateExternalForceText(weekKey, text)`, `clearExternalForce(weekKey)`
+- [x] **STORE-01**: Zustand store gains an `externalForces: Record<string, ExternalForce>` field, persisted to `ls_v3`, keyed by `wk(i)` (one external force per week)
+- [x] **STORE-02**: `ExternalForce` type holds: `year`, `summary` (original Wikipedia text), `userText` (user's editable version), and optionally `url`
+- [x] **STORE-03**: Store actions: `setExternalForce(weekKey, force)`, `updateExternalForceText(weekKey, text)`, `clearExternalForce(weekKey)`
 
 ### Grid Search / Filter
 
@@ -65,9 +65,9 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| STORE-01 | Phase 1 | Pending |
-| STORE-02 | Phase 1 | Pending |
-| STORE-03 | Phase 1 | Pending |
+| STORE-01 | Phase 1 | Complete (2026-03-10) |
+| STORE-02 | Phase 1 | Complete (2026-03-10) |
+| STORE-03 | Phase 1 | Complete (2026-03-10) |
 | API-01 | Phase 2 | Pending |
 | API-02 | Phase 2 | Pending |
 | API-03 | Phase 2 | Pending |
@@ -94,4 +94,4 @@
 
 ---
 *Requirements defined: 2026-03-08*
-*Last updated: 2026-03-08 — traceability populated by roadmap*
+*Last updated: 2026-03-10 — STORE-01, STORE-02, STORE-03 marked complete after 01-01 execution*
