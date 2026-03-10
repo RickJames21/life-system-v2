@@ -31,6 +31,13 @@ export interface SheetData {
   isPast: boolean
 }
 
+export interface ExternalForce {
+  year: number
+  summary: string
+  userText: string
+  url?: string
+}
+
 export const DEFAULT_TIME_ITEMS: TimeItem[] = [
   { l: 'weeks until retirement', type: 'age',  target: 65,           unit: 'weeks' },
   { l: 'weeks until 2040',       type: 'date', target: '2040-01-01', unit: 'weeks' },
@@ -48,6 +55,7 @@ interface State {
   // Persisted data
   notes: Record<string, string>
   moods: Record<string, number>
+  externalForces: Record<string, ExternalForce>
 
   // UI (ephemeral — not persisted)
   tab: GridTab
@@ -79,6 +87,9 @@ interface Actions {
   setNote: (key: string, text: string) => void
   deleteNote: (key: string) => void
   setMood: (key: string, mood: number) => void
+  setExternalForce: (weekKey: string, force: ExternalForce) => void
+  updateExternalForceText: (weekKey: string, text: string) => void
+  clearExternalForce: (weekKey: string) => void
 
   // Tab
   setTab: (tab: GridTab) => void
@@ -137,6 +148,7 @@ export const useStore = create<Store>()(
       timeItems: null,
       notes: {},
       moods: {},
+      externalForces: {},
 
       // Initial UI state
       tab: 'weeks',
@@ -166,6 +178,19 @@ export const useStore = create<Store>()(
         return { notes }
       }),
       setMood: (key, mood) => set((s) => ({ moods: { ...s.moods, [key]: mood } })),
+
+      // ── External Forces ──────────────────────────────────────────────
+      setExternalForce: (weekKey, force) => set((s) => ({ externalForces: { ...s.externalForces, [weekKey]: force } })),
+      updateExternalForceText: (weekKey, text) => set((s) => {
+        const existing = s.externalForces[weekKey]
+        if (!existing) return {}
+        return { externalForces: { ...s.externalForces, [weekKey]: { ...existing, userText: text } } }
+      }),
+      clearExternalForce: (weekKey) => set((s) => {
+        const ef = { ...s.externalForces }
+        delete ef[weekKey]
+        return { externalForces: ef }
+      }),
 
       // ── Tab ──────────────────────────────────────────────────────────
       setTab: (tab) => set({ tab }),
@@ -338,6 +363,7 @@ export const useStore = create<Store>()(
         timeItems:        state.timeItems,
         notes:            state.notes,
         moods:            state.moods,
+        externalForces:   state.externalForces,
       }),
     }
   )
