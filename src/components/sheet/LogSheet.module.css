@@ -19,6 +19,10 @@
   flex-direction: column;
 }
 
+.sheet {
+  max-height: min(92vh, 640px);
+}
+
 .menuSheet {
   max-height: 50vh;
 }

@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useStore } from '../../store/useStore'
 import { Stats } from '../../lib/calcStats'
 import { wk, weekRange, MOOD_LABELS } from '../../lib/dateUtils'
+import { ExternalForcesPanel } from './ExternalForcesPanel'
 import s from './LogSheet.module.css'
 
 interface Props {
@@ -156,6 +157,8 @@ export function LogSheet({ stats, birthDate }: Props) {
           value={logNote}
           onChange={(e) => setLogNote(e.target.value)}
         />
+        <ExternalForcesPanel weekIdx={weekIdx} birthDate={birthDate} />
+
         <div className={s.noteFooter}>
           <span className={s.charCount}>{rem} left</span>
           <div className={s.noteBtns}>
