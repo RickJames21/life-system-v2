@@ -32,11 +32,16 @@ Plans:
 **Success Criteria** (what must be TRUE):
   1. In the note-writing step of LogSheet, an "External Forces" section appears below the personal note with a trigger button — no events load automatically
   2. After pressing the trigger, one event at a time is shown as `{year} — {summary}` in muted italic; "Show Next" cycles through the week's pool without saving
-  3. Pressing "Add to Record" saves the displayed event; the saved force appears in a visually distinct block below personal notes, labeled "External Force", never merged with personal text
+  3. Pressing "Add to Record" saves the displayed event; the saved force appears in a visually distinct block below personal notes, labeled "Signal", never merged with personal text
   4. The saved external force block is editable inline after saving
   5. If the Wikipedia API is unavailable or returns no events, the panel shows "No external signal" and the log flow continues normally
   6. The External Forces panel is usable on mobile (touch-friendly controls, readable text)
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Install vitest test framework and create failing test stubs for hook and panel
+- [ ] 02-02-PLAN.md — Build useExternalForces hook (state machine, Wikipedia fetch, cache, shuffle, cycling)
+- [ ] 02-03-PLAN.md — Build ExternalForcesPanel component and wire into LogSheet
 
 ### Phase 3: Integration
 **Goal**: External forces are portable (included in backup/restore and CSV export) and searchable from the grid
@@ -55,5 +60,5 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Store Foundation | 1/1 | Complete    | 2026-03-10 |
-| 2. External Forces Experience | 0/TBD | Not started | - |
+| 2. External Forces Experience | 0/3 | Not started | - |
 | 3. Integration | 0/TBD | Not started | - |
