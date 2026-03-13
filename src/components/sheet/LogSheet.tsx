@@ -163,7 +163,7 @@ export function LogSheet({ stats, birthDate }: Props) {
           <span className={s.charCount}>{rem} left</span>
           <div className={s.noteBtns}>
             <button className={s.cancelBtn} onClick={closeLogSheet}>cancel</button>
-            <button className={s.saveBtn} onClick={() => logSave(weekIdx)}>save</button>
+            <button className={s.saveBtn} onClick={() => logSave(weekIdx)}>save entry</button>
           </div>
         </div>
       </>

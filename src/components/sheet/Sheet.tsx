@@ -1,8 +1,10 @@
 import { useRef } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useStore } from '../../store/useStore'
+import type { ExternalForce } from '../../store/useStore'
 import { Stats } from '../../lib/calcStats'
 import { wk, mk, yk, MONTH_NAMES, NOTE_LIMITS, MOOD_LABELS } from '../../lib/dateUtils'
+import { ExternalForcesPanel } from './ExternalForcesPanel'
 import s from './Sheet.module.css'
 
 interface Props {
@@ -11,17 +13,18 @@ interface Props {
 }
 
 export function Sheet({ stats, birthDate }: Props) {
-  const sheet       = useStore((st) => st.sheet)
-  const sheetText   = useStore((st) => st.sheetText)
-  const notes       = useStore((st) => st.notes)
-  const moods       = useStore((st) => st.moods)
-  const closeSheet  = useStore((st) => st.closeSheet)
-  const setSheetText = useStore((st) => st.setSheetText)
-  const saveSheetNote = useStore((st) => st.saveSheetNote)
+  const sheet           = useStore((st) => st.sheet)
+  const sheetText       = useStore((st) => st.sheetText)
+  const notes           = useStore((st) => st.notes)
+  const moods           = useStore((st) => st.moods)
+  const externalForces  = useStore((st) => st.externalForces)
+  const closeSheet      = useStore((st) => st.closeSheet)
+  const setSheetText    = useStore((st) => st.setSheetText)
+  const saveSheetNote   = useStore((st) => st.saveSheetNote)
   const deleteSheetNote = useStore((st) => st.deleteSheetNote)
-  const setSheetMood = useStore((st) => st.setSheetMood)
-  const navigateSheet = useStore((st) => st.navigateSheet)
-  const openLogSheet  = useStore((st) => st.openLogSheet)
+  const setSheetMood    = useStore((st) => st.setSheetMood)
+  const navigateSheet   = useStore((st) => st.navigateSheet)
+  const openLogSheet    = useStore((st) => st.openLogSheet)
 
   const touchStart = useRef(0)
 
@@ -34,7 +37,10 @@ export function Sheet({ stats, birthDate }: Props) {
   const alreadyLogged  = isCurrentWeek && (moods[sheet.noteKey] !== undefined || hasSaved)
 
   // Build children (nested notes for month/year/decade)
-  const children = buildChildren(sheet.type, sheet.noteKey, notes, stats, birthDate)
+  const children = buildChildren(sheet.type, sheet.noteKey, notes, externalForces, stats, birthDate)
+
+  // For week sheets: parse weekIdx from noteKey ("w123" → 123)
+  const weekIdx = sheet.type === 'week' ? parseInt(sheet.noteKey.slice(1), 10) : null
 
   return (
     <AnimatePresence>
@@ -141,9 +147,14 @@ export function Sheet({ stats, birthDate }: Props) {
                       <button className={s.deleteBtn} onClick={deleteSheetNote}>clear</button>
                     )}
                     <button className={s.cancelBtn} onClick={closeSheet}>cancel</button>
-                    <button className={s.saveBtn} onClick={saveSheetNote}>save</button>
+                    <button className={s.saveBtn} onClick={saveSheetNote}>save entry</button>
                   </div>
                 </div>
+
+                {/* External Forces panel — week sheets only */}
+                {sheet.type === 'week' && weekIdx !== null && (
+                  <ExternalForcesPanel weekIdx={weekIdx} birthDate={birthDate} />
+                )}
               </>
             ) : (
               <div className={s.futureMsg}>
@@ -164,6 +175,7 @@ function buildChildren(
   type: string,
   noteKey: string,
   notes: Record<string, string>,
+  externalForces: Record<string, ExternalForce>,
   stats: Stats,
   birthDate: string,
 ): JSX.Element[] {
@@ -171,11 +183,17 @@ function buildChildren(
 
   const maxWeek = stats.weeksLived
 
-  function noteRow(label: string, text: string, key: string) {
+  function noteRow(label: string, text: string, key: string, signal?: ExternalForce) {
     return (
       <div key={key} className='__noterow' style={{ padding: '8px 10px', background: 'var(--bg-inset)', borderRadius: 5, marginBottom: 6, borderLeft: '2px solid var(--border)' }}>
         <div style={{ fontSize: 9, color: 'var(--text-dim)', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 3 }}>{label}</div>
         <div style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.6 }}>{text}</div>
+        {signal && (
+          <div style={{ marginTop: 5, paddingTop: 5, borderTop: '1px solid var(--border-dim)' }}>
+            <span style={{ fontSize: 9, color: 'var(--text-deep)', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase', marginRight: 6 }}>Signal</span>
+            <span style={{ fontSize: 11, color: 'var(--text-dim)', fontStyle: 'italic' }}>{signal.year} — {signal.userText}</span>
+          </div>
+        )}
       </div>
     )
   }
@@ -186,7 +204,8 @@ function buildChildren(
     const rows: JSX.Element[] = []
     for (let wi = ws; wi < Math.min(we, maxWeek + 1); wi++) {
       const t = notes[wk(wi)]
-      if (t) rows.push(noteRow(`wk ${wi + 1}`, t, `wk-${wi}`))
+      const sig = externalForces[wk(wi)]
+      if (t || sig) rows.push(noteRow(`wk ${wi + 1}`, t || '', `wk-${wi}`, sig))
     }
     return rows
   }
