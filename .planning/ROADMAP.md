@@ -53,7 +53,13 @@ Plans:
   3. CSV export includes external force text as a clearly labeled separate column
   4. Typing in the search input dims week cells whose notes AND external forces do not match; matching cells stay highlighted
   5. A matched cell's styling or tooltip indicates whether the match came from a personal note or an external force
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Create failing test stubs for all Phase 3 requirements (Wave 0 / TDD scaffolding)
+- [ ] 03-02-PLAN.md — Extend ImportExport.tsx: doBackup + doRestore + exportCSV + importFile for externalForces
+- [ ] 03-03-PLAN.md — Add search state to store, search toggle to GridPanel, opacity dimming to WeekGrid
+- [ ] 03-04-PLAN.md — Add desktop tooltip and mobile preview strip for SEARCH-04 match preview
 
 ## Progress
 
@@ -61,4 +67,4 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Store Foundation | 1/1 | Complete    | 2026-03-10 |
 | 2. External Forces Experience | 3/3 | Complete | 2026-03-13 |
-| 3. Integration | 0/TBD | Not started | - |
+| 3. Integration | 0/4 | Not started | - |
