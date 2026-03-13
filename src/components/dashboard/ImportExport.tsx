@@ -1,5 +1,6 @@
-import { useStore } from '../../store/useStore'
+import { useStore, ExternalForce } from '../../store/useStore'
 import { wk, dateToWeekIdx } from '../../lib/dateUtils'
+import { calcStats } from '../../lib/calcStats'
 import { showToast } from '../common/Toast'
 
 export function ImportExport() {
@@ -10,16 +11,20 @@ export function ImportExport() {
   const moods    = useStore((s) => s.moods)
   const lifespan = useStore((s) => s.lifespan)
   const mission  = useStore((s) => s.mission)
+  const externalForces = useStore((s) => s.externalForces)
 
   function exportCSV() {
-    const rows = [['date', 'title', 'note']]
-    Object.keys(notes).forEach((key) => {
-      if (!key.startsWith('w')) return
-      const idx = +key.slice(1)
+    const stats = calcStats(birthDate, lifespan)
+    const rows = [['date', 'title', 'note', 'external_force_text']]
+    for (let idx = 0; idx <= stats.weeksLived; idx++) {
       const s = new Date(birthDate)
       s.setDate(s.getDate() + idx * 7)
-      rows.push([s.toISOString().split('T')[0], `week ${idx + 1}`, notes[key]])
-    })
+      const dateStr = s.toISOString().split('T')[0]
+      const note = notes[wk(idx)] || ''
+      const ef = externalForces[wk(idx)]
+      const efText = ef ? (ef.userText || ef.summary || '') : ''
+      rows.push([dateStr, `week ${idx + 1}`, note, efText])
+    }
     const csv = rows.map((r) => r.map((c) => '"' + String(c).replace(/"/g, '""') + '"').join(',')).join('\n')
     dl(new Blob([csv], { type: 'text/csv' }), 'life-system-timeline.csv')
     showToast('csv exported')
@@ -39,7 +44,7 @@ export function ImportExport() {
   }
 
   function doBackup() {
-    const data = JSON.stringify({ notes, moods, config: { birthDate, lifespan, mission } }, null, 2)
+    const data = JSON.stringify({ notes, moods, externalForces, config: { birthDate, lifespan, mission } }, null, 2)
     dl(new Blob([data], { type: 'application/json' }), 'life-system-backup.json')
     showToast('backup downloaded')
   }
@@ -50,6 +55,7 @@ export function ImportExport() {
         const d = JSON.parse(text)
         if (d.notes) useStore.setState({ notes: d.notes })
         if (d.moods) useStore.setState({ moods: d.moods })
+        if (d.externalForces) useStore.setState({ externalForces: d.externalForces })
         if (d.config?.birthDate) {
           useStore.setState({ birthDate: d.config.birthDate, lifespan: d.config.lifespan || 90, mission: d.config.mission || '' })
         }
@@ -75,15 +81,26 @@ export function ImportExport() {
           }
         } else {
           const updates: Record<string, string> = {}
+          const efUpdates: Record<string, ExternalForce> = {}
           text.trim().split('\n').slice(1).forEach((line) => {
             const cols = line.match(/(".*?"|[^,]+)(?=,|$)/g) || []
             const clean = (c: string) => c.replace(/^"|"$/g, '').replace(/""/g, '"')
             const ds = clean(cols[0] || ''), note = clean(cols[2] || cols[1] || '')
             if (!ds) return
             const idx = dateToWeekIdx(birthDate, ds)
-            if (idx >= 0) { updates[wk(idx)] = note.slice(0, 140); imported++ }
+            if (idx >= 0) {
+              updates[wk(idx)] = note.slice(0, 140)
+              imported++
+              const efText = cols[3] ? clean(cols[3]) : ''
+              if (efText) {
+                efUpdates[wk(idx)] = { userText: efText, summary: efText, year: 0, url: undefined }
+              }
+            }
           })
           useStore.setState((s) => ({ notes: { ...s.notes, ...updates } }))
+          if (Object.keys(efUpdates).length > 0) {
+            useStore.setState((s) => ({ externalForces: { ...s.externalForces, ...efUpdates } }))
+          }
         }
         showToast(`imported ${imported} entries`)
       } catch { showToast('import failed — check file format') }
