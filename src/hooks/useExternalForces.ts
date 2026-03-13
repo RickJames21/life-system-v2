@@ -43,11 +43,9 @@ function toIso(d: Date): string {
 
 async function fetchGuardian(
   weekStart: Date,
-  weekEnd: Date
+  weekEnd: Date,
+  apiKey: string
 ): Promise<ExternalEvent[]> {
-  const apiKey = import.meta.env.VITE_GUARDIAN_KEY as string | undefined
-  if (!apiKey) return []
-
   const controller = new AbortController()
   const timer = setTimeout(() => controller.abort(), 8000)
 
@@ -156,11 +154,13 @@ export function useExternalForces(
 
     let pool: ExternalEvent[]
 
-    if (year >= 1999) {
-      // Guardian path
+    const apiKey = import.meta.env.VITE_GUARDIAN_KEY as string | undefined
+
+    if (year >= 1999 && apiKey) {
+      // Guardian path — one fetch for the week
       const weekEnd = new Date(weekStart)
       weekEnd.setDate(weekEnd.getDate() + 6)
-      pool = await fetchGuardian(weekStart, weekEnd)
+      pool = await fetchGuardian(weekStart, weekEnd, apiKey)
 
       if (pool.length === 0) {
         setStatus('error')
@@ -168,7 +168,7 @@ export function useExternalForces(
         return
       }
     } else {
-      // Wikipedia path
+      // Wikipedia path — pre-1999 weeks, or Guardian key missing (silent fallthrough)
       pool = await fetchWikipedia(weekStart)
 
       if (pool.length === 0) {
