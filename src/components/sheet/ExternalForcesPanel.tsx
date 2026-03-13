@@ -14,8 +14,8 @@ interface Props {
 export function ExternalForcesPanel({ weekIdx, birthDate }: Props) {
   const weekKey = wk(weekIdx)
 
-  const savedForce = useStore((st) => st.externalForces[weekKey])
-  const { setExternalForce, updateExternalForceText, clearExternalForce } = useStore((st) => ({
+  const { savedForce, setExternalForce, updateExternalForceText, clearExternalForce } = useStore((st) => ({
+    savedForce: st.externalForces[weekKey],
     setExternalForce: st.setExternalForce,
     updateExternalForceText: st.updateExternalForceText,
     clearExternalForce: st.clearExternalForce,
@@ -81,9 +81,13 @@ export function ExternalForcesPanel({ weekIdx, birthDate }: Props) {
 
   return (
     <div className={s.panel}>
-      {/* Section divider + label — shown only when no saved force (or in cycling mode) */}
-      <div className={s.divider} />
-      {!hasForce && <div className={s.sectionLabel}>&gt; external forces</div>}
+      {/* Section divider + label — both shown together, or neither */}
+      {!hasForce && (
+        <>
+          <div className={s.divider} />
+          <div className={s.sectionLabel}>&gt; external forces</div>
+        </>
+      )}
 
       {/* BRANCH A + saved force visible: show "change signal" option above signal block */}
       {hasForce && (
@@ -152,8 +156,8 @@ export function ExternalForcesPanel({ weekIdx, birthDate }: Props) {
         </AnimatePresence>
       )}
 
-      {/* BRANCH E: error */}
-      {!hasForce && status === 'error' && (
+      {/* BRANCH E: error or loaded-but-empty (defensive) */}
+      {!hasForce && (status === 'error' || (status === 'loaded' && events.length === 0)) && (
         <div className={s.errorRow}>
           <span className={s.errorText}>No external signal</span>
           <button

@@ -30,7 +30,7 @@
   font-size: 11px;
   font-family: var(--font-mono);
   cursor: pointer;
-  padding: 0;
+  padding: 10px 0;
   min-height: 44px;
   min-width: 44px;
   text-decoration: underline;
@@ -187,7 +187,7 @@
   cursor: pointer;
   text-decoration: underline;
   text-underline-offset: 2px;
-  padding: 4px 0;
+  padding: 10px 0;
   min-height: 44px;
   min-width: 44px;
 }
@@ -266,5 +266,4 @@
   font-family: inherit;
   line-height: 1.6;
   box-sizing: border-box;
-  font-style: italic;
 }
