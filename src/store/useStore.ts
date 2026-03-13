@@ -65,6 +65,8 @@ interface State {
   legendOpen: boolean
   gotoOpen: boolean
   aiOpen: boolean
+  searchQuery: string
+  searchOpen: boolean
 
   // Log flow
   logSheet: boolean
@@ -127,6 +129,8 @@ interface Actions {
   setLegendOpen: (open: boolean) => void
   setGotoOpen: (open: boolean) => void
   setAiOpen: (open: boolean) => void
+  setSearchQuery: (q: string) => void
+  setSearchOpen: (open: boolean) => void
   setHighlightWeek: (week: number | null) => void
   setMenuOpen: (open: boolean) => void
 
@@ -158,6 +162,8 @@ export const useStore = create<Store>()(
       legendOpen: false,
       gotoOpen: false,
       aiOpen: false,
+      searchQuery: '',
+      searchOpen: false,
       logSheet: false,
       logStep: 'rate',
       logMood: null,
@@ -337,6 +343,8 @@ export const useStore = create<Store>()(
       setLegendOpen: (open) => set({ legendOpen: open }),
       setGotoOpen: (open) => set({ gotoOpen: open }),
       setAiOpen: (open) => set({ aiOpen: open }),
+      setSearchQuery: (q) => set({ searchQuery: q }),
+      setSearchOpen: (open) => set({ searchOpen: open }),
       setHighlightWeek: (week) => set({ highlightWeek: week }),
       setMenuOpen: (open) => set({ menuOpen: open }),
 
