@@ -5,7 +5,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, act, waitFor } from '@testing-library/react'
 import { http, HttpResponse } from 'msw'
 import { server } from './mocks/server'
-import { useExternalForces } from '../src/hooks/useExternalForces'
+import { useExternalForces, _clearCacheForTesting } from '../src/hooks/useExternalForces'
 
 // birthDate: 1970-01-01
 // weekIdx 1827 → 1970-01-01 + 1827*7 days ≈ 2005-01-13 (Guardian path, year >= 1999)
@@ -14,6 +14,11 @@ import { useExternalForces } from '../src/hooks/useExternalForces'
 const BIRTH = '1970-01-01'
 const GUARDIAN_WEEK_IDX = 1827  // 2005-ish — Guardian path
 const WIKI_WEEK_IDX = 783       // 1985-ish — Wikipedia path
+
+// Clear the module-level cache between tests to prevent cross-test pollution
+beforeEach(() => {
+  _clearCacheForTesting()
+})
 
 describe('useExternalForces — API-01: no auto-fetch on mount', () => {
   it('hook status is idle on mount; trigger function is not called automatically', () => {
@@ -27,6 +32,11 @@ describe('useExternalForces — API-01: no auto-fetch on mount', () => {
 })
 
 describe('useExternalForces — Guardian path (weekIdx year >= 1999)', () => {
+  beforeEach(() => {
+    // Stub env so hook uses Guardian path (key present → doesn't fall through to Wikipedia)
+    vi.stubEnv('VITE_GUARDIAN_KEY', 'test-guardian-key')
+  })
+
   it('trigger transitions status: idle → loading → loaded', async () => {
     const { result } = renderHook(() => useExternalForces(BIRTH, GUARDIAN_WEEK_IDX))
     expect(result.current.status).toBe('idle')
@@ -138,8 +148,7 @@ describe('useExternalForces — Wikipedia path (weekIdx year < 1999)', () => {
 
 describe('useExternalForces — API-02: session cache', () => {
   beforeEach(() => {
-    // Use a unique weekIdx to avoid cross-test cache pollution
-    // Tests in this group use GUARDIAN_WEEK_IDX + 9999 to be isolated
+    vi.stubEnv('VITE_GUARDIAN_KEY', 'test-guardian-key')
   })
 
   it('second trigger for the same weekIdx uses cached events; no new fetch', async () => {
@@ -202,6 +211,10 @@ describe('useExternalForces — API-02: session cache', () => {
 })
 
 describe('useExternalForces — API-03: error states', () => {
+  beforeEach(() => {
+    vi.stubEnv('VITE_GUARDIAN_KEY', 'test-guardian-key')
+  })
+
   it('all-failure (every day returns empty / network error): status → error', async () => {
     server.use(
       http.get('https://en.wikipedia.org/api/rest_v1/feed/onthisday/events/:mm/:dd', () =>
@@ -232,6 +245,10 @@ describe('useExternalForces — API-03: error states', () => {
 })
 
 describe('useExternalForces — cycling', () => {
+  beforeEach(() => {
+    vi.stubEnv('VITE_GUARDIAN_KEY', 'test-guardian-key')
+  })
+
   it('next() increments currentIdx', async () => {
     const { result } = renderHook(() => useExternalForces(BIRTH, GUARDIAN_WEEK_IDX))
     await act(async () => { await result.current.trigger() })
