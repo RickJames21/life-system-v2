@@ -7,7 +7,7 @@ Three phases build External Forces onto the existing app. Phase 1 extends the Zu
 ## Phases
 
 - [x] **Phase 1: Store Foundation** - Add `externalForces` state shape, actions, and persistence to Zustand
-- [ ] **Phase 2: External Forces Experience** - On-demand API fetch, in-log panel with cycling/saving, mobile layout, and visual polish
+- [x] **Phase 2: External Forces Experience** - On-demand API fetch, in-log panel with cycling/saving, mobile layout, and visual polish
 - [ ] **Phase 3: Integration** - Import/export includes external forces; grid search spans notes and external forces
 
 ## Phase Details
@@ -39,9 +39,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Install vitest test framework and create failing test stubs for hook and panel
-- [ ] 02-02-PLAN.md — Build useExternalForces hook (state machine, Wikipedia fetch, cache, shuffle, cycling)
-- [ ] 02-03-PLAN.md — Build ExternalForcesPanel component and wire into LogSheet
+- [x] 02-01-PLAN.md — Install vitest test framework and create failing test stubs for hook and panel
+- [x] 02-02-PLAN.md — Build useExternalForces hook (state machine, Wikipedia fetch, cache, shuffle, cycling)
+- [x] 02-03-PLAN.md — Build ExternalForcesPanel component and wire into LogSheet
 
 ### Phase 3: Integration
 **Goal**: External forces are portable (included in backup/restore and CSV export) and searchable from the grid
@@ -60,5 +60,5 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Store Foundation | 1/1 | Complete    | 2026-03-10 |
-| 2. External Forces Experience | 2/3 | In Progress|  |
+| 2. External Forces Experience | 3/3 | Complete | 2026-03-13 |
 | 3. Integration | 0/TBD | Not started | - |
