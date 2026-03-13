@@ -67,4 +67,4 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Store Foundation | 1/1 | Complete    | 2026-03-10 |
 | 2. External Forces Experience | 3/3 | Complete | 2026-03-13 |
-| 3. Integration | 0/4 | Not started | - |
+| 3. Integration | 1/4 | In Progress|  |
