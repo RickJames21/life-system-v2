@@ -183,22 +183,13 @@ export function ExternalForcesPanel({ weekIdx, birthDate }: Props) {
           >
             <div className={s.signalHeader}>
               <span className={s.signalLabel}>Signal</span>
-              <div className={s.signalActions}>
-                <button
-                  className={s.resetBtn}
-                  onClick={handleReset}
-                  aria-label="reset"
-                >
-                  reset
-                </button>
-                <button
-                  className={s.clearBtn}
-                  onClick={handleClear}
-                  aria-label="×"
-                >
-                  ×
-                </button>
-              </div>
+              <button
+                className={s.clearBtn}
+                onClick={handleClear}
+                aria-label="clear signal"
+              >
+                ×
+              </button>
             </div>
             <textarea
               className={s.signalTextarea}
