@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 2 context gathered
-last_updated: "2026-03-13T04:56:20.163Z"
+stopped_at: Completed 02-external-forces-experience-02-02-PLAN.md
+last_updated: "2026-03-13T06:22:44.596Z"
 last_activity: 2026-03-10 — Plan 01-01 complete
 progress:
   total_phases: 3
   completed_phases: 1
-  total_plans: 1
-  completed_plans: 1
+  total_plans: 4
+  completed_plans: 3
   percent: 10
 ---
 
@@ -50,6 +50,8 @@ Progress: [█░░░░░░░░░] 10%
 - Trend: —
 
 *Updated after each plan completion*
+| Phase 02-external-forces-experience P01 | 10 | 2 tasks | 8 files |
+| Phase 02-external-forces-experience P02 | 5 | 3 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -64,6 +66,12 @@ From PROJECT.md Key Decisions table:
 From 01-01 execution:
 - Three-action surface (set/updateText/clear) keeps writes granular — Phase 2 UI can update user annotation without clobbering AI-fetched fields
 - No-op guard in updateExternalForceText when key absent prevents partial-state writes requiring downstream null handling
+- [Phase 02-01]: passWithNoTests: true in vitest.config.ts so runner exits 0 during stub-only phase
+- [Phase 02-01]: it.todo over it.skip for RED stubs — todos appear in CI output as pending, skips are silent
+- [Phase 02-01]: MSW handlers.ts uses default happy-path; per-test error cases use server.use() override
+- [Phase 02-external-forces-experience]: apiKey passed as parameter to fetchGuardian — routing logic centralized in trigger()
+- [Phase 02-external-forces-experience]: Guardian key absent falls through to Wikipedia path silently — graceful degradation per spec
+- [Phase 02-external-forces-experience]: Export _clearCacheForTesting() for module-level Map test isolation — standard pattern for session caches
 
 ### Pending Todos
 
@@ -78,6 +86,6 @@ From CONCERNS.md — relevant to this feature:
 
 ## Session Continuity
 
-Last session: 2026-03-13T04:56:20.137Z
-Stopped at: Phase 2 context gathered
-Resume file: .planning/phases/02-external-forces-experience/02-CONTEXT.md
+Last session: 2026-03-13T06:22:44.589Z
+Stopped at: Completed 02-external-forces-experience-02-02-PLAN.md
+Resume file: None
