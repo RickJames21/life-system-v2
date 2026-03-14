@@ -179,7 +179,7 @@ export function GridPanel({ stats, birthDate }: Props) {
           <button
             key={t}
             className={`${s.tabBtn} ${tab === t ? s.tabActive : ''}`}
-            onClick={() => setTab(t)}
+            onClick={() => { setTab(t); setTappedWeek(null) }}
           >
             {t}
           </button>
@@ -192,9 +192,9 @@ export function GridPanel({ stats, birthDate }: Props) {
       {tab === 'years'   && <YearGrid   stats={stats} />}
       {tab === 'decades' && <DecadeGrid stats={stats} />}
 
-      {/* Mobile preview strip — slides up on first tap of a matched cell */}
+      {/* Mobile preview strip — slides up on first tap of a content cell */}
       <AnimatePresence>
-        {tappedWeek !== null && searchQuery && (
+        {tappedWeek !== null && (
           <motion.div
             key="preview-strip"
             initial={{ y: '100%', opacity: 0 }}

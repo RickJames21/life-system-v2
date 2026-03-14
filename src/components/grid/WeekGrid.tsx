@@ -73,8 +73,11 @@ export function WeekGrid({ stats, birthDate, matchedWeeks, searchQuery, onCellTa
       const border = current ? '1px solid var(--amber)' : past ? '1px solid transparent' : '1px solid #2d3238'
       const shadow = current ? '0 0 5px rgba(242,197,114,0.5)' : 'none'
 
-      const isMatchedCell = !!(searchQuery && matchedWeeks?.has(i))
       const ef = externalForces[wk(i)]
+      const hasContent = (hasNote || !!ef) && (past || current)
+      const hasDisplayableText = !!(notes[wk(i)] || ef)
+      const range = weekRange(birthDate, i)
+      const tooltipAlign = col < 4 ? ` ${s.matchTooltipLeft}` : col > 47 ? ` ${s.matchTooltipRight}` : ''
 
       cells.push(
         <div
@@ -82,20 +85,20 @@ export function WeekGrid({ stats, birthDate, matchedWeeks, searchQuery, onCellTa
           id={isHL ? 'hl-cell' : undefined}
           className={isHL ? 'highlight-pulse' : undefined}
           onClick={() => {
-            if (isMatchedCell && onCellTap) {
+            if (hasContent && onCellTap) {
               onCellTap(i)
             } else {
               openSheet({
                 type: 'week',
                 noteKey: wk(i),
                 title: `week ${i + 1}`,
-                subtitle: weekRange(birthDate, i),
+                subtitle: range,
                 limit: NOTE_LIMITS.week,
                 isPast: past || current,
               })
             }
           }}
-          title={isMatchedCell ? undefined : `week ${i + 1}${current ? ' · current' : ''}`}
+          title={hasContent ? undefined : `week ${i + 1}${current ? ' · current' : ''}`}
           style={{
             flex: 1,
             aspectRatio: '1',
@@ -116,9 +119,9 @@ export function WeekGrid({ stats, birthDate, matchedWeeks, searchQuery, onCellTa
           {hasNote && (past || current) && (
             <span style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: 3, color: 'rgba(255,255,255,0.75)', lineHeight: 1, pointerEvents: 'none' }}>●</span>
           )}
-          {isMatchedCell && (
-            <div className={s.matchTooltip}>
-              <span className={s.tooltipWeek}>Week {i + 1}</span>
+          {hasContent && hasDisplayableText && (
+            <div className={`${s.matchTooltip}${tooltipAlign}`}>
+              <span className={s.tooltipWeek}>Week {i + 1} &middot; <span style={{ textTransform: 'none', letterSpacing: 0 }}>{range}</span></span>
               {notes[wk(i)] && (
                 <span className={s.tooltipNote}>note: &ldquo;{notes[wk(i)].slice(0, 60)}&rdquo;</span>
               )}

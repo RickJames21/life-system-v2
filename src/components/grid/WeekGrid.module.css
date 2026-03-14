@@ -5,7 +5,7 @@
   bottom: calc(100% + 4px);
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10;
+  z-index: 50;
   background: var(--bg-lift);
   border: 1px solid var(--border);
   border-radius: 5px;
@@ -16,6 +16,19 @@
   gap: 3px;
   min-width: 160px;
   max-width: 260px;
+}
+
+/* Left-edge columns: anchor to cell left */
+.matchTooltipLeft {
+  left: 0;
+  transform: none;
+}
+
+/* Right-edge columns: anchor to cell right */
+.matchTooltipRight {
+  left: auto;
+  right: 0;
+  transform: none;
 }
 
 /* Show on cell hover — only on pointer devices */
