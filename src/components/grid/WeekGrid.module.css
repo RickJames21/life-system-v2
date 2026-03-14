@@ -1,0 +1,59 @@
+/* Match tooltip — desktop only, shown on parent:hover */
+.matchTooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background: var(--bg-lift);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 6px 9px;
+  white-space: nowrap;
+  pointer-events: none;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 160px;
+  max-width: 260px;
+}
+
+/* Show on cell hover — only on pointer devices */
+@media (hover: hover) {
+  *:hover > .matchTooltip {
+    display: flex;
+  }
+}
+
+/* Never show on touch devices */
+@media (hover: none) {
+  .matchTooltip {
+    display: none !important;
+  }
+}
+
+.tooltipWeek {
+  font-size: 9px;
+  color: var(--text-secondary);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.tooltipNote {
+  font-size: 10px;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 240px;
+}
+
+.tooltipSignal {
+  font-size: 10px;
+  color: var(--amber);
+  font-style: italic;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 240px;
+}

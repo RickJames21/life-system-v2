@@ -2,6 +2,7 @@ import { useStore } from '../../store/useStore'
 import { Stats } from '../../lib/calcStats'
 import { getWeekColor } from '../../lib/colorSystem'
 import { wk, weekRange, MILESTONES, NOTE_LIMITS } from '../../lib/dateUtils'
+import s from './WeekGrid.module.css'
 
 const COLS = 52
 const FUTURE = '#2A2E32'
@@ -11,13 +12,15 @@ interface Props {
   birthDate: string
   matchedWeeks?: Set<number>
   searchQuery?: string
+  onCellTap?: (weekIdx: number) => void
 }
 
-export function WeekGrid({ stats, birthDate, matchedWeeks, searchQuery }: Props) {
-  const notes         = useStore((s) => s.notes)
-  const moods         = useStore((s) => s.moods)
-  const highlightWeek = useStore((s) => s.highlightWeek)
-  const openSheet     = useStore((s) => s.openSheet)
+export function WeekGrid({ stats, birthDate, matchedWeeks, searchQuery, onCellTap }: Props) {
+  const notes         = useStore((st) => st.notes)
+  const moods         = useStore((st) => st.moods)
+  const highlightWeek = useStore((st) => st.highlightWeek)
+  const openSheet     = useStore((st) => st.openSheet)
+  const externalForces = useStore((st) => st.externalForces)
 
   const totalYears = Math.ceil(stats.totalWeeks / COLS)
   const rows: JSX.Element[] = []
@@ -70,20 +73,29 @@ export function WeekGrid({ stats, birthDate, matchedWeeks, searchQuery }: Props)
       const border = current ? '1px solid var(--amber)' : past ? '1px solid transparent' : '1px solid #2d3238'
       const shadow = current ? '0 0 5px rgba(242,197,114,0.5)' : 'none'
 
+      const isMatchedCell = !!(searchQuery && matchedWeeks?.has(i))
+      const ef = externalForces[wk(i)]
+
       cells.push(
         <div
           key={i}
           id={isHL ? 'hl-cell' : undefined}
           className={isHL ? 'highlight-pulse' : undefined}
-          onClick={() => openSheet({
-            type: 'week',
-            noteKey: wk(i),
-            title: `week ${i + 1}`,
-            subtitle: weekRange(birthDate, i),
-            limit: NOTE_LIMITS.week,
-            isPast: past || current,
-          })}
-          title={`week ${i + 1}${current ? ' · current' : ''}`}
+          onClick={() => {
+            if (isMatchedCell && onCellTap) {
+              onCellTap(i)
+            } else {
+              openSheet({
+                type: 'week',
+                noteKey: wk(i),
+                title: `week ${i + 1}`,
+                subtitle: weekRange(birthDate, i),
+                limit: NOTE_LIMITS.week,
+                isPast: past || current,
+              })
+            }
+          }}
+          title={isMatchedCell ? undefined : `week ${i + 1}${current ? ' · current' : ''}`}
           style={{
             flex: 1,
             aspectRatio: '1',
@@ -103,6 +115,17 @@ export function WeekGrid({ stats, birthDate, matchedWeeks, searchQuery }: Props)
         >
           {hasNote && (past || current) && (
             <span style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: 3, color: 'rgba(255,255,255,0.75)', lineHeight: 1, pointerEvents: 'none' }}>●</span>
+          )}
+          {isMatchedCell && (
+            <div className={s.matchTooltip}>
+              <span className={s.tooltipWeek}>Week {i + 1}</span>
+              {notes[wk(i)] && (
+                <span className={s.tooltipNote}>note: &ldquo;{notes[wk(i)].slice(0, 60)}&rdquo;</span>
+              )}
+              {ef && (
+                <span className={s.tooltipSignal}>signal: &ldquo;{(ef.userText || ef.summary || '').slice(0, 60)}&rdquo;</span>
+              )}
+            </div>
           )}
         </div>
       )
