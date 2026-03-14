@@ -9,9 +9,11 @@ const FUTURE = '#2A2E32'
 interface Props {
   stats: Stats
   birthDate: string
+  matchedWeeks?: Set<number>
+  searchQuery?: string
 }
 
-export function WeekGrid({ stats, birthDate }: Props) {
+export function WeekGrid({ stats, birthDate, matchedWeeks, searchQuery }: Props) {
   const notes         = useStore((s) => s.notes)
   const moods         = useStore((s) => s.moods)
   const highlightWeek = useStore((s) => s.highlightWeek)
@@ -93,7 +95,8 @@ export function WeekGrid({ stats, birthDate }: Props) {
             minWidth: 0,
             cursor: 'pointer',
             userSelect: 'none',
-            transition: 'filter 0.15s',
+            opacity: searchQuery && matchedWeeks && !matchedWeeks.has(i) ? 0.15 : 1,
+            transition: 'filter 0.15s, opacity 0.2s',
           }}
           onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.filter = 'brightness(1.3)' }}
           onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.filter = '' }}

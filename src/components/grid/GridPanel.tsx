@@ -1,5 +1,5 @@
-import { useRef } from 'react'
-import { useStore, GridTab } from '../../store/useStore'
+import { useRef, useMemo } from 'react'
+import { useStore, GridTab, ExternalForce } from '../../store/useStore'
 import { Stats } from '../../lib/calcStats'
 import { WeekGrid }   from './WeekGrid'
 import { MonthGrid }  from './MonthGrid'
@@ -15,15 +15,38 @@ interface Props {
 const TABS: GridTab[] = ['weeks', 'months', 'years', 'decades']
 
 export function GridPanel({ stats, birthDate }: Props) {
-  const tab         = useStore((st) => st.tab)
-  const setTab      = useStore((st) => st.setTab)
-  const legendOpen  = useStore((st) => st.legendOpen)
-  const setLegend   = useStore((st) => st.setLegendOpen)
-  const gotoOpen    = useStore((st) => st.gotoOpen)
-  const setGoto     = useStore((st) => st.setGotoOpen)
-  const gotoDate    = useStore((st) => st.gotoDate)
+  const tab            = useStore((st) => st.tab)
+  const setTab         = useStore((st) => st.setTab)
+  const legendOpen     = useStore((st) => st.legendOpen)
+  const setLegend      = useStore((st) => st.setLegendOpen)
+  const gotoOpen       = useStore((st) => st.gotoOpen)
+  const setGoto        = useStore((st) => st.setGotoOpen)
+  const gotoDate       = useStore((st) => st.gotoDate)
+  const searchOpen     = useStore((st) => st.searchOpen)
+  const setSearchOpen  = useStore((st) => st.setSearchOpen)
+  const searchQuery    = useStore((st) => st.searchQuery)
+  const setSearchQuery = useStore((st) => st.setSearchQuery)
+  const notes          = useStore((st) => st.notes)
+  const externalForces = useStore((st) => st.externalForces)
 
-  const gotoRef = useRef<HTMLInputElement>(null)
+  const gotoRef   = useRef<HTMLInputElement>(null)
+  const searchRef = useRef<HTMLInputElement>(null)
+
+  const matchedWeeks = useMemo<Set<number>>(() => {
+    if (!searchQuery.trim()) return new Set<number>()
+    const q = searchQuery.toLowerCase()
+    const matched = new Set<number>()
+    Object.entries(notes).forEach(([key, text]) => {
+      if (key.startsWith('w') && typeof text === 'string' && text.toLowerCase().includes(q)) {
+        matched.add(+key.slice(1))
+      }
+    })
+    Object.entries(externalForces).forEach(([key, ef]: [string, ExternalForce]) => {
+      const searchText = (ef.userText || ef.summary || '').toLowerCase()
+      if (searchText.includes(q)) matched.add(+key.slice(1))
+    })
+    return matched
+  }, [searchQuery, notes, externalForces])
 
   function handleGoto() {
     const val = gotoRef.current?.value
@@ -40,12 +63,20 @@ export function GridPanel({ stats, birthDate }: Props) {
             legend {legendOpen ? '▲' : '▼'}
           </button>
         </div>
-        <button
-          className={`${s.gotoBtn} ${gotoOpen ? s.gotoBtnActive : ''}`}
-          onClick={() => { setGoto(!gotoOpen); setTimeout(() => gotoRef.current?.focus(), 60) }}
-        >
-          ⌖ date
-        </button>
+        <div style={{ display: 'flex', gap: 6 }}>
+          <button
+            className={`${s.gotoBtn} ${gotoOpen ? s.gotoBtnActive : ''}`}
+            onClick={() => { setGoto(!gotoOpen); setTimeout(() => gotoRef.current?.focus(), 60) }}
+          >
+            ⌖ date
+          </button>
+          <button
+            className={`${s.gotoBtn} ${searchOpen ? s.gotoBtnActive : ''}`}
+            onClick={() => { setSearchOpen(!searchOpen); setTimeout(() => searchRef.current?.focus(), 60) }}
+          >
+            ⌕ search
+          </button>
+        </div>
       </div>
 
       {/* Legend */}
@@ -99,6 +130,26 @@ export function GridPanel({ stats, birthDate }: Props) {
         </div>
       )}
 
+      {/* Search */}
+      {searchOpen && tab === 'weeks' && (
+        <div className={s.searchRow}>
+          <input
+            ref={searchRef}
+            type="text"
+            className={s.searchInput}
+            placeholder="search notes + signals…"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Escape') { setSearchQuery(''); setSearchOpen(false) }
+            }}
+          />
+          {searchQuery && (
+            <button className={s.searchClear} onClick={() => setSearchQuery('')}>×</button>
+          )}
+        </div>
+      )}
+
       <p className={s.hint}>tap any cell to add a note to that moment in your life.</p>
 
       {/* Tab bar */}
@@ -115,7 +166,7 @@ export function GridPanel({ stats, birthDate }: Props) {
       </div>
 
       {/* Grid */}
-      {tab === 'weeks'   && <WeekGrid   stats={stats} birthDate={birthDate} />}
+      {tab === 'weeks'   && <WeekGrid   stats={stats} birthDate={birthDate} matchedWeeks={matchedWeeks} searchQuery={searchQuery} />}
       {tab === 'months'  && <MonthGrid  stats={stats} birthDate={birthDate} />}
       {tab === 'years'   && <YearGrid   stats={stats} />}
       {tab === 'decades' && <DecadeGrid stats={stats} />}

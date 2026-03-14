@@ -135,6 +135,36 @@
   white-space: nowrap;
 }
 
+/* Search */
+.searchRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 7px 10px;
+  font-size: 13px;
+  color: var(--text-primary);
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  outline: none;
+}
+
+.searchClear {
+  padding: 7px 10px;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  line-height: 1;
+}
+
 .hint {
   font-size: 10px;
   color: var(--text-dim);
