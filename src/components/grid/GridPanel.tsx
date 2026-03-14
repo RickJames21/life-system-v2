@@ -1,6 +1,8 @@
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useStore, GridTab, ExternalForce } from '../../store/useStore'
 import { Stats } from '../../lib/calcStats'
+import { wk, weekRange, NOTE_LIMITS } from '../../lib/dateUtils'
 import { WeekGrid }   from './WeekGrid'
 import { MonthGrid }  from './MonthGrid'
 import { YearGrid }   from './YearGrid'
@@ -28,6 +30,9 @@ export function GridPanel({ stats, birthDate }: Props) {
   const setSearchQuery = useStore((st) => st.setSearchQuery)
   const notes          = useStore((st) => st.notes)
   const externalForces = useStore((st) => st.externalForces)
+  const openSheet      = useStore((st) => st.openSheet)
+
+  const [tappedWeek, setTappedWeek] = useState<number | null>(null)
 
   const gotoRef   = useRef<HTMLInputElement>(null)
   const searchRef = useRef<HTMLInputElement>(null)
@@ -51,6 +56,22 @@ export function GridPanel({ stats, birthDate }: Props) {
   function handleGoto() {
     const val = gotoRef.current?.value
     if (val) gotoDate(val)
+  }
+
+  function handleCellTap(weekIdx: number) {
+    if (tappedWeek === weekIdx) {
+      openSheet({
+        type: 'week',
+        noteKey: wk(weekIdx),
+        title: `week ${weekIdx + 1}`,
+        subtitle: weekRange(birthDate, weekIdx),
+        limit: NOTE_LIMITS.week,
+        isPast: true,
+      })
+      setTappedWeek(null)
+    } else {
+      setTappedWeek(weekIdx)
+    }
   }
 
   return (
@@ -141,11 +162,11 @@ export function GridPanel({ stats, birthDate }: Props) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Escape') { setSearchQuery(''); setSearchOpen(false) }
+              if (e.key === 'Escape') { setSearchQuery(''); setSearchOpen(false); setTappedWeek(null) }
             }}
           />
           {searchQuery && (
-            <button className={s.searchClear} onClick={() => setSearchQuery('')}>×</button>
+            <button className={s.searchClear} onClick={() => { setSearchQuery(''); setTappedWeek(null) }}>×</button>
           )}
         </div>
       )}
@@ -166,10 +187,48 @@ export function GridPanel({ stats, birthDate }: Props) {
       </div>
 
       {/* Grid */}
-      {tab === 'weeks'   && <WeekGrid   stats={stats} birthDate={birthDate} matchedWeeks={matchedWeeks} searchQuery={searchQuery} />}
+      {tab === 'weeks'   && <WeekGrid   stats={stats} birthDate={birthDate} matchedWeeks={matchedWeeks} searchQuery={searchQuery} onCellTap={handleCellTap} />}
       {tab === 'months'  && <MonthGrid  stats={stats} birthDate={birthDate} />}
       {tab === 'years'   && <YearGrid   stats={stats} />}
       {tab === 'decades' && <DecadeGrid stats={stats} />}
+
+      {/* Mobile preview strip — slides up on first tap of a matched cell */}
+      <AnimatePresence>
+        {tappedWeek !== null && searchQuery && (
+          <motion.div
+            key="preview-strip"
+            initial={{ y: '100%', opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: '100%', opacity: 0 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 35 }}
+            className={s.previewStrip}
+            onClick={() => {
+              openSheet({
+                type: 'week',
+                noteKey: wk(tappedWeek),
+                title: `week ${tappedWeek + 1}`,
+                subtitle: weekRange(birthDate, tappedWeek),
+                limit: NOTE_LIMITS.week,
+                isPast: true,
+              })
+              setTappedWeek(null)
+            }}
+          >
+            <span className={s.previewWeekLabel}>
+              Week {tappedWeek + 1} · {weekRange(birthDate, tappedWeek)}
+            </span>
+            {notes[wk(tappedWeek)] && (
+              <span className={s.previewNote}>note: &ldquo;{notes[wk(tappedWeek)]}&rdquo;</span>
+            )}
+            {externalForces[wk(tappedWeek)] && (
+              <span className={s.previewSignal}>
+                signal: &ldquo;{externalForces[wk(tappedWeek)].userText || externalForces[wk(tappedWeek)].summary || ''}&rdquo;
+              </span>
+            )}
+            <span className={s.previewHint}>tap to open full entry →</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
