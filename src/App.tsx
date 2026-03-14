@@ -103,7 +103,7 @@ export default function App() {
 
         <p style={{ fontSize: 10, color: 'var(--text-deep)', letterSpacing: '0.05em', textAlign: 'center', marginTop: 8 }}>
           systems run one cycle at a time.{' '}
-          <span style={{ opacity: 0.5 }}>v2.1</span>
+          <span style={{ opacity: 0.5 }}>v2.2</span>
         </p>
       </div>
 

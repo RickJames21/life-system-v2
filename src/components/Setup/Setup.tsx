@@ -65,7 +65,7 @@ export function Setup() {
           </button>
         </div>
 
-        <p className={s.footer}>systems run one cycle at a time. <span style={{ opacity: 0.4 }}>v2.1</span></p>
+        <p className={s.footer}>systems run one cycle at a time. <span style={{ opacity: 0.4 }}>v2.2</span></p>
       </div>
     </div>
   )
